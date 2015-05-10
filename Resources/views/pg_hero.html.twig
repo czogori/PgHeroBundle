@@ -1,0 +1,105 @@
+{% extends 'WebProfilerBundle:Profiler:layout.html.twig' %}
+
+{% block toolbar %}
+  {% set color = 'grey' %}
+  {% set icon %}
+  <img width="20" height="28" alt="Database" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAcCAYAAABh2p9gAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAQRJREFUeNpi/P//PwM1ARMDlcGogZQDlpMnT7pxc3NbA9nhQKxOpL5rQLwJiPeBsI6Ozl+YBOOOHTv+AOllQNwtLS39F2owKYZ/gRq8G4i3ggxEToggWzvc3d2Pk+1lNL4fFAs6ODi8JzdS7mMRVyDVoAMHDsANdAPiOCC+jCQvQKqBQB/BDbwBxK5AHA3E/kB8nKJkA8TMQBwLxaBIKQbi70AvTADSBiSadwFXpCikpKQU8PDwkGTaly9fHFigkaKIJid4584dkiMFFI6jkTJII0WVmpHCAixZQEXWYhDeuXMnyLsVlEQKI45qFBQZ8eRECi4DBaAlDqle/8A48ip6gAADANdQY88Uc0oGAAAAAElFTkSuQmCC">
+  <span height="18" class="sf-toolbar-status sf-toolbar-status-{{ color }}">PgHero</span>{% endset %}
+  {% set text %}<div class="sf-toolbar-info-piece">Pg hero</div>{% endset %}
+  {% include 'WebProfilerBundle:Profiler:toolbar_item.html.twig' with { 'link': 'pg_hero' } %}
+{% endblock %}
+
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+
+{% block menu %}
+    <span class="label">
+        <span class="icon"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAcCAYAAAB/E6/TAAABLUlEQVR42u3TP0vDQBiA8UK/gDiLzi0IhU4OEunk5OQUAhGSOBUCzqWfIKSzX8DRySF0URCcMjWLIJjFD9Cpk/D6HITecEPUuzhIAz8CIdyTP/f2iqI4qaqqDx8l5Ic2uIeP/bquezCokOAFF+oCN3t4gPzSEjc4NEPaCldQbzjELTYW0RJzHDchwwem+ons6ZBpLSJ7nueJC22h0V+FzmwWV0ee59vQNV67CGVZJmEYbkNjfpY6X6I0Qo4/3RMmTdDDspuQVsJvgkP3IdMbIkIjLPBoadG2646iKJI0Ta2wxm6OdnP0/Tk6DYJgHcfxpw21RtscDTDDnaVZ26474GkkSRIrrPEv5sgMTfHe+cA2O6wPH6vOBpYQNALneHb96XTEDI6dzpEZ0VzO0Rf3pP5LMLI4tAAAAABJRU5ErkJggg==" alt=""></span>
+        <strong>{{ 'Pg Hero' }}</strong>
+    </span>
+{% endblock %}
+
+{% block panel %}
+  <h2>{{ 'Pg Hero' }}</h2>
+  Space
+  <table>
+    <tbody>
+      <tr>
+      <th>Relation</th>
+      <th>Size</th>
+      <th>Type</th>
+      </tr>
+      {% for realtionSize in collector.relationSizes %}
+        <tr><td>{{ realtionSize.name }}</td>
+            <td>{{ realtionSize.size }}</td>
+            <td>{{ realtionSize.type }}</td>
+        </tr>
+        {% endfor %}
+  </tbody></table>
+
+Index usage
+<table>
+  <tbody>
+    <tr>
+    <th>Table</th>
+    <th>% of Time Index Used</th>
+    <th>Rows</th>
+    </tr>
+    {% for item in collector.indexUsage %}
+      <tr><td>{{ item.table }}</td>
+          <td>{{ item.percent_of_times_index_used }}</td>
+          <td>{{ item.rows_in_table }}</td>
+      </tr>
+      {% endfor %}
+</tbody></table>
+
+Running queries
+<table>
+  <tbody>
+    <tr>
+    <th>PID</th>
+    <th>State</th>
+    <th>Source</th>
+    <th>Duration</th>
+    <th>Waiting</th>
+    <th>Query</th>
+    <th>Action</th>
+    </tr>
+    {% for item in collector.runnigQueries %}
+      <tr><td>{{ item.pid }}</td>
+          <td>{{ item.state }}</td>
+          <td>{{ item.source }}</td>
+          <td>{{ item.duration }}</td>
+          <td>{{ item.waiting ? 'true' : 'false' }}</td>
+          <td>{{ item.query }}</td>
+          <td><a href="{{ app.request.baseUrl ~ app.request.pathInfo ~ '?panel=pg_hero' }}&kill={{ item.pid }}">Kill</a></td>
+      </tr>
+      {% endfor %}
+</tbody></table>
+
+Long running queries
+<table>
+  <tbody>
+    <tr>
+    <th>PID</th>
+    <th>State</th>
+    <th>Source</th>
+    <th>Duration</th>
+    <th>Waiting</th>
+    <th>Query</th>
+    <th>Action</th>
+    </tr>
+    {% for item in collector.longRunnigQueries %}
+      <tr><td>{{ item.pid }}</td>
+          <td>{{ item.state }}</td>
+          <td>{{ item.source }}</td>
+          <td>{{ item.duration }}</td>
+          <td>{{ item.waiting ? 'true' : 'false' }}</td>
+          <td>{{ item.query }}</td>
+          <td><a href="{{ app.request.baseUrl ~ app.request.pathInfo ~ '?panel=pg_hero' }}&kill={{ item.pid }}">Kill</a></td>
+      </tr>
+      {% endfor %}
+</tbody></table>
+
+{% endblock %}
