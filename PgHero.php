@@ -9,7 +9,6 @@ class PgHero
   public function __construct($dsn, $username, $password)
   {
       $this->config = ['dsn' => $dsn, 'username' => $username, 'password' => $password];
-      //$this->connection = new \PDO($dsn, $username, $password);
   }
 
   public function getRelationSizes()
