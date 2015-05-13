@@ -2,14 +2,14 @@
 
 namespace Czogori\PgHeroBundle\Command;
 
-use Symfony\Component\Console\Command\Command;
+use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Czogori\PgHeroBundle\PgHero;
 
-class InstallCommand extends Command
+class InstallCommand extends ContainerAwareCommand
 {
     protected function configure()
     {
@@ -21,6 +21,6 @@ class InstallCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        (new PgHero())->install();
+        $this->getContainer()->get('pg_hero')->install();
     }
 }
