@@ -15,7 +15,7 @@ class UninstallCommand extends ContainerAwareCommand
     {
         $this
             ->setName('pghero:uninstall')
-            ->setDescription('Greet someone')
+            ->setDescription('Uninstall PgHero.')
         ;
     }
 

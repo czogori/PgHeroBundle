@@ -15,7 +15,7 @@ class InstallCommand extends ContainerAwareCommand
     {
         $this
             ->setName('pghero:install')
-            ->setDescription('Greet someone')
+            ->setDescription('Install PgHero.')
         ;
     }
 
