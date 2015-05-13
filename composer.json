@@ -11,8 +11,8 @@
         }
     ],
     "autoload": {
-        "psr-0": {
-            "Czogori\\PgHeroBundle": ""
+        "psr-4": {
+            "Czogori\\PgHeroBundle\\": ""
         }
     }
 }
