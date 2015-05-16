@@ -41,6 +41,20 @@ class PgHero
       return $this->getConnection()->exec($this->installQuery);
   }
 
+  public function isInstalled()
+  {
+      $numerViews = 6;
+      $q = "SELECT count(*)
+          FROM   information_schema.tables
+          WHERE table_name = 'pghero_index_usage'
+          OR table_name = 'pghero_long_running_queries'
+          OR table_name = 'pghero_missing_indexes'
+          OR table_name = 'pghero_relation_sizes'
+          OR table_name = 'pghero_running_queries'
+          OR table_name = 'pghero_unused_indexes'";
+      return $this->getItems($q)[0]['count'] == $numerViews;
+  }
+
   public function uninstall()
   {
       return $this->getConnection()->exec($this->uninstallQuery);

@@ -41,6 +41,11 @@ class PgHeroDataCollector extends DataCollector
         return $this->data['pg_hero']->getLongRunnigQueries();
     }
 
+    public function isInstalled()
+    {
+        return $this->data['pg_hero']->isInstalled();
+    }
+
     public function getName()
     {
         return 'pg_hero';

@@ -21,6 +21,8 @@
 {% endblock %}
 
 {% block panel %}
+{% if collector.isInstalled %}
+
   <h2>{{ 'Pg Hero' }}</h2>
   Space
   <table>
@@ -101,5 +103,9 @@ Long running queries
       </tr>
       {% endfor %}
 </tbody></table>
+
+{% else %}
+    PgHero is not installed. Please run <strong>pghero:install</strong> command.
+{% endif %}
 
 {% endblock %}
