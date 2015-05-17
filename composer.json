@@ -1,7 +1,7 @@
 {
     "name": "czogori/pghero-bundle",
     "description": "Information about PostgreSql's database in Symfony2 profiler",
-    "keywords": [ "postgres" ],
+    "keywords": [ "postgres", "symfony", "profiler" ],
     "license": "MIT",
     "type": "symfony-bundle",
     "authors": [
