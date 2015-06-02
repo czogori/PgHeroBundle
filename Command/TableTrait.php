@@ -9,11 +9,12 @@ trait TableTrait
         $rows = [];
         foreach ($items as $item) {
             $row = [];
-            foreach($columns as $column) {
+            foreach ($columns as $column) {
                 $row[] = $item[$column];
             }
             $rows[] = $row;
         }
+
         return $this->getHelperSet()
             ->get('table')
             ->setHeaders($header)

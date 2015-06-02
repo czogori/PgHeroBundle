@@ -1,4 +1,5 @@
 <?php
+
 namespace Czogori\PgHeroBundle;
 
 use Symfony\Component\HttpFoundation\Request;
@@ -13,7 +14,7 @@ class PgHeroDataCollector extends DataCollector
         $this->data['pg_hero'] = $pgHero;
         $pid = $request->getCurrentRequest()->query->get('kill');
         if ($pid) {
-          $pgHero->killQuery($pid);
+            $pgHero->killQuery($pid);
         }
     }
 

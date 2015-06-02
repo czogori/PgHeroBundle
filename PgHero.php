@@ -1,50 +1,51 @@
 <?php
+
 namespace Czogori\PgHeroBundle;
 
 class PgHero
 {
-  private $connection;
-  private $config;
+    private $connection;
+    private $config;
 
-  public function __construct($dsn, $username, $password)
-  {
-      $this->config = ['dsn' => $dsn, 'username' => $username, 'password' => $password];
-  }
+    public function __construct($dsn, $username, $password)
+    {
+        $this->config = ['dsn' => $dsn, 'username' => $username, 'password' => $password];
+    }
 
-  public function getRelationSizes()
-  {
-      return $this->getItems('SELECT name, type, size FROM pghero_relation_sizes');
-  }
+    public function getRelationSizes()
+    {
+        return $this->getItems('SELECT name, type, size FROM pghero_relation_sizes');
+    }
 
-  public function getIndexUsage()
-  {
-      return $this->getItems('SELECT * FROM pghero_index_usage');
-  }
+    public function getIndexUsage()
+    {
+        return $this->getItems('SELECT * FROM pghero_index_usage');
+    }
 
-  public function getRunnigQueries()
-  {
-      return $this->getItems('SELECT * FROM pghero_running_queries');
-  }
+    public function getRunnigQueries()
+    {
+        return $this->getItems('SELECT * FROM pghero_running_queries');
+    }
 
-  public function getLongRunnigQueries()
-  {
-      return $this->getItems('SELECT * FROM pghero_long_running_queries');
-  }
+    public function getLongRunnigQueries()
+    {
+        return $this->getItems('SELECT * FROM pghero_long_running_queries');
+    }
 
-  public function killQuery($pid)
-  {
-      return $this->getConnection()->exec(sprintf('SELECT pghero_kill(%d)', $pid));
-  }
+    public function killQuery($pid)
+    {
+        return $this->getConnection()->exec(sprintf('SELECT pghero_kill(%d)', $pid));
+    }
 
-  public function install()
-  {
-      return $this->getConnection()->exec($this->installQuery);
-  }
+    public function install()
+    {
+        return $this->getConnection()->exec($this->installQuery);
+    }
 
-  public function isInstalled()
-  {
-      $numerViews = 6;
-      $q = "SELECT count(*)
+    public function isInstalled()
+    {
+        $numerViews = 6;
+        $q = "SELECT count(*)
           FROM   information_schema.tables
           WHERE table_name = 'pghero_index_usage'
           OR table_name = 'pghero_long_running_queries'
@@ -52,30 +53,31 @@ class PgHero
           OR table_name = 'pghero_relation_sizes'
           OR table_name = 'pghero_running_queries'
           OR table_name = 'pghero_unused_indexes'";
-      return $this->getItems($q)[0]['count'] == $numerViews;
-  }
 
-  public function uninstall()
-  {
-      return $this->getConnection()->exec($this->uninstallQuery);
-  }
+        return $this->getItems($q)[0]['count'] == $numerViews;
+    }
 
-  private function getConnection()
-  {
-      return $this->connection ?: new \PDO($this->config['dsn'], $this->config['username'], $this->config['password']);
-  }
+    public function uninstall()
+    {
+        return $this->getConnection()->exec($this->uninstallQuery);
+    }
 
-  private function getItems($sql)
-  {
-      $items = [];
-      foreach ($this->getConnection()->query($sql) as $row) {
-          $items[] = $row;
-      }
+    private function getConnection()
+    {
+        return $this->connection ?: new \PDO($this->config['dsn'], $this->config['username'], $this->config['password']);
+    }
 
-      return $items;
-  }
+    private function getItems($sql)
+    {
+        $items = [];
+        foreach ($this->getConnection()->query($sql) as $row) {
+            $items[] = $row;
+        }
 
-  private $installQuery = "BEGIN;
+        return $items;
+    }
+
+    private $installQuery = "BEGIN;
 
 -- views
 
@@ -195,7 +197,7 @@ $$
 
 COMMIT;";
 
-  private $uninstallQuery = "BEGIN;
+    private $uninstallQuery = 'BEGIN;
 DROP VIEW IF EXISTS pghero_long_running_queries;
 DROP VIEW IF EXISTS pghero_running_queries;
 DROP VIEW IF EXISTS pghero_missing_indexes;
@@ -206,5 +208,5 @@ DROP FUNCTION IF EXISTS pghero_index_hit_rate();
 DROP FUNCTION IF EXISTS pghero_table_hit_rate();
 DROP FUNCTION IF EXISTS pghero_kill(integer);
 DROP FUNCTION IF EXISTS pghero_kill_all();
-COMMIT;";
+COMMIT;';
 }

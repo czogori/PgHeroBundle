@@ -3,9 +3,7 @@
 namespace Czogori\PgHeroBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Czogori\PgHeroBundle\PgHero;
 
@@ -25,8 +23,8 @@ class RunningQueriesCommand extends ContainerAwareCommand
     {
         $items = $this->getContainer()->get('pg_hero')->getRunnigQueries();
 
-        $this->populateTable(['PID',	'State',	'Source',	'Duration',	'Waiting',	'Query'],
-            ['pid', 'state','source','duration', 'waiting', 'query'], $items)
+        $this->populateTable(['PID', 'State', 'Source', 'Duration', 'Waiting', 'Query'],
+            ['pid', 'state', 'source', 'duration', 'waiting', 'query'], $items)
             ->render($output);
     }
 }
