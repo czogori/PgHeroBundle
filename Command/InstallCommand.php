@@ -20,5 +20,6 @@ class InstallCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->getContainer()->get('pg_hero')->install();
+        $output->writeln('<info>PgHero has been installed.</info>');
     }
 }

@@ -20,5 +20,6 @@ class UninstallCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->getContainer()->get('pg_hero')->uninstall();
+        $output->writeln('<info>PgHero has been uninstalled.</info>');
     }
 }
